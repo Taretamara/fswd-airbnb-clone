@@ -27,7 +27,11 @@ gem 'jbuilder', '~> 2.11'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1'
+gem 'bcrypt', '~> 3.1.7'
+# Use kaminari for activerecord pagination
+gem 'kaminari', '~> 1.2.2'
+# Use Stripe for receiving payments
+gem 'stripe', '~> 7.1'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
