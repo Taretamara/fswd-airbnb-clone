@@ -15,10 +15,14 @@ module Api
       session = Stripe::Checkout::Session.create(
         payment_method_types: ['card'],
         line_items: [{
-          name: "Trip for #{property.title}",
-          description: "Your booking is for #{booking.start_date} to #{booking.end_date}.",
-          amount: (amount * 100.0).to_i, # amount in cents
-          currency: "usd",
+          price_data: {
+            currency: 'usd',
+            unit_amount: (amount * 100.0).to_i, # amount in cents
+            product_data: {
+              name: "Trip for #{property.title}",
+              description: "Your booking is for #{booking.start_date} to #{booking.end_date}.",
+            },
+          },
           quantity: 1,
         }],
         mode: "payment",
