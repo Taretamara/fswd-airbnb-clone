@@ -2,7 +2,7 @@
   "name": "airbnb-clone",
   "private": true,
   "engines": {
-    "node": "^18.19"
+    "node": "^20.9"
   },
   "dependencies": {
     "@babel/preset-react": "^7.16.7",
