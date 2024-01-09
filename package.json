@@ -2,7 +2,9 @@
   "name": "airbnb-clone",
   "private": true,
   "engines": {
-    "node": "^20.9"
+    "node": "^16.17",
+    "npm": "^6.14",
+    "yarn": "^1.22"
   },
   "dependencies": {
     "@babel/plugin-proposal-private-methods": "^7.18.6",
