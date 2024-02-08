@@ -1,7 +1,7 @@
 // user index.jsx
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import User from './user';
+import UserPage from './user'; 
 
 <div className="container">
   <div className="row">
