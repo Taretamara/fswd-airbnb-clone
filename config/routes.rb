@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     # Bookings
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
     post '/booking/:id/success' => 'bookings#create'
+    get '/booking/:user' => 'bookings#show'
 
     # Sessions
     post '/sessions'               => 'sessions#create'
