@@ -8,10 +8,14 @@ const Layout = (props) => {
         <div className="container-fluid">
           <a className="navbar-brand text-danger" href="/">Airbnb</a>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <a className="nav-link" href="/">Home</a>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link" href="/user">Account</a>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link" href="/">Login</a>
               </li>
             </ul>
