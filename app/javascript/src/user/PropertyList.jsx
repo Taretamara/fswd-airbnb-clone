@@ -1,4 +1,7 @@
-const UserPage = () => {
+// propertylist
+import React, { useState, useEffect } from 'react';
+
+const PropertyList = () => {
   const [displayProperties, setDisplayProperties] = useState(true);
   const [displayBookings, setBookings] = useState(false);
   const [properties, setProperties] = useState([]);
@@ -47,4 +50,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default PropertyList;
