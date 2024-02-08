@@ -11,6 +11,8 @@ const Layout = (props) => {
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
                 <a className="nav-link" href="/">Home</a>
+                <a className="nav-link" href="/user">Account</a>
+                <a className="nav-link" href="/">Login</a>
               </li>
             </ul>
           </div>
