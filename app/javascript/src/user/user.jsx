@@ -1,13 +1,13 @@
 // User
 import React, { useState, useEffect } from 'react';
 import PropertyList from './PropertyList';
-import ReservationList from './ReservationList';
+import BookingList from './BookingnList';
 
 const UserPage = () => {
   const [displayProperties, setDisplayProperties] = useState(true);
   const [displayBookings, setBookings] = useState(false);
   const [properties, setProperties] = useState([]);
-  const [bookingss, setBookings] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     // Fetch initial data (properties) when the component mounts
@@ -47,7 +47,7 @@ const UserPage = () => {
         My Bookings
       </button>
       {displayProperties && <PropertyList properties={properties} />}
-      {displayBookings && <BookingsList reservations={bookings} />}
+      {displayBookings && <BookingList reservations={bookings} />}
     </div>
   );
 };
