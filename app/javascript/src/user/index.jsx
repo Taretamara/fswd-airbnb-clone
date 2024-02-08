@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const data = JSON.parse(node.getAttribute('data-params'));
 
   ReactDOM.render(
-    <Layout></Layout>
+    <Layout>
     <UserPage />,
     document.body.appendChild(document.createElement('div')),
     </Layout>
