@@ -1,7 +1,7 @@
 // User
 import React, { useState, useEffect } from 'react';
 import PropertyList from './PropertyList';
-import BookingList from './BookingnList';
+import BookingList from './BookingList';
 
 const UserPage = () => {
   const [displayProperties, setDisplayProperties] = useState(true);
