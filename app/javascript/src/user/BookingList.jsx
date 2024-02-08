@@ -1,8 +1,7 @@
 //BookingList
-const UserPage = () => {
-  const [displayProperties, setDisplayProperties] = useState(true);
+
+const BookingList = () => {
   const [displayBookings, setBookings] = useState(false);
-  const [properties, setProperties] = useState([]);
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
@@ -12,10 +11,6 @@ const UserPage = () => {
 
   const fetchData = async () => {
     try {
-      const propertiesResponse = await fetch('/api/user/properties');
-      const propertiesData = await propertiesResponse.json();
-      setProperties(propertiesData);
-
       const reservationsResponse = await fetch('/api/user/reservations');
       const reservationsData = await reservationsResponse.json();
       setReservations(reservationsData);
@@ -24,28 +19,12 @@ const UserPage = () => {
     }
   };
 
-  const toggleDisplayProperties = () => {
-    setDisplayProperties(true);
-    setDisplayBookings(false);
-  };
-
-  const toggleDisplayReservations = () => {
-    setDisplayProperties(false);
-    setDisplayBookings(true);
-  };
 
   return (
     <div>
-      <button onClick={toggleDisplayProperties}>
-        My Properties
-      </button>
-      <button onClick={toggleDisplayBookings}>
-        My Bookings
-      </button>
-      {displayProperties && <PropertyList properties={properties} />}
-      {displayBookings && <BookingList reservations={bookings} />}
+      
     </div>
   );
 };
 
-export default UserPage;
+export default BookingList;
