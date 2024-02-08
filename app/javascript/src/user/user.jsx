@@ -5,9 +5,9 @@ import ReservationList from './ReservationList';
 
 const UserPage = () => {
   const [displayProperties, setDisplayProperties] = useState(true);
-  const [displayReservations, setDisplayReservations] = useState(false);
+  const [displayBookings, setBookings] = useState(false);
   const [properties, setProperties] = useState([]);
-  const [reservations, setReservations] = useState([]);
+  const [bookingss, setBookings] = useState([]);
 
   useEffect(() => {
     // Fetch initial data (properties) when the component mounts
@@ -30,24 +30,24 @@ const UserPage = () => {
 
   const toggleDisplayProperties = () => {
     setDisplayProperties(true);
-    setDisplayReservations(false);
+    setDisplayBookings(false);
   };
 
   const toggleDisplayReservations = () => {
     setDisplayProperties(false);
-    setDisplayReservations(true);
+    setDisplayBookings(true);
   };
 
   return (
     <div>
       <button onClick={toggleDisplayProperties}>
-        Show Properties
+        My Properties
       </button>
-      <button onClick={toggleDisplayReservations}>
-        Show Reservations
+      <button onClick={toggleDisplayBookings}>
+        My Bookings
       </button>
       {displayProperties && <PropertyList properties={properties} />}
-      {displayReservations && <ReservationList reservations={reservations} />}
+      {displayBookings && <BookingsList reservations={bookings} />}
     </div>
   );
 };
