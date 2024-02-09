@@ -83,7 +83,7 @@ render () {
         <label for="bedrooms">Number of bedrooms:</label><input type="number" id="bedrooms"></input>
         <label for="beds">Number of beds:</label><input type="number" id="beds"></input>
         <label for="baths">Number of bathrooms:</label><input type="number" id="baths"></input>
-        //add picture upload here
+        # add picture upload here
         <button type="submit" className="btn btn-large btn-danger btn-block">Add</button>
       </form>
     </div>
