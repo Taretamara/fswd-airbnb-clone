@@ -1,30 +1,18 @@
 //BookingList
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Layout from '@src/layout';
 
 const BookingList = () => {
-  const [displayBookings, setBookings] = useState(false);
-  const [bookings, setBookings] = useState([]);
-
-  useEffect(() => {
-    // Fetch initial data (properties) when the component mounts
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const reservationsResponse = await fetch('/api/user/reservations');
-      const reservationsData = await reservationsResponse.json();
-      setReservations(reservationsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  
 
 
   return (
-    <div>
-      
-    </div>
+    <div className="row ms-5">
+      <div className="col-12">
+        <h3>Your Bookings</h3>
+      </div>
+  </div>
   );
 };
 

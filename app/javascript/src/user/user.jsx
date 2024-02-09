@@ -1,54 +1,43 @@
 // User
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Layout from '@src/layout';
 import PropertyList from './PropertyList';
 import BookingList from './BookingList';
 
 const UserPage = () => {
   const [displayProperties, setDisplayProperties] = useState(true);
-  const [displayBookings, setBookings] = useState(false);
-  const [properties, setProperties] = useState([]);
-  const [bookings, setBookings] = useState([]);
-
-  useEffect(() => {
-    // Fetch initial data (properties) when the component mounts
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const propertiesResponse = await fetch('/api/user/properties');
-      const propertiesData = await propertiesResponse.json();
-      setProperties(propertiesData);
-
-      const reservationsResponse = await fetch('/api/user/reservations');
-      const reservationsData = await reservationsResponse.json();
-      setReservations(reservationsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  const [displayBookings, setDisplayBookings] = useState(false);
 
   const toggleDisplayProperties = () => {
     setDisplayProperties(true);
     setDisplayBookings(false);
   };
 
-  const toggleDisplayReservations = () => {
+  const toggleDisplayBookings = () => {
     setDisplayProperties(false);
     setDisplayBookings(true);
   };
 
   return (
-    <div>
-      <button onClick={toggleDisplayProperties}>
-        My Properties
-      </button>
-      <button onClick={toggleDisplayBookings}>
-        My Bookings
-      </button>
-      {displayProperties && <PropertyList properties={properties} />}
-      {displayBookings && <BookingList reservations={bookings} />}
-    </div>
+    <Layout>
+      <div className="container">
+        <div className="row mt-5 mb-5">
+          <div className="col-3 border rounded shadow-sm pt-2 pb-5 ps-3">
+            <h4 className="mt-3">User Dashboard</h4>
+            <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayProperties}>
+              My Properties
+            </button>
+            <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayBookings}>
+              My Bookings
+            </button>
+          </div>
+          <div className="col-9">
+            {displayProperties && <PropertyList />}
+            {displayBookings && <BookingList />}
+          </div>
+        </div>
+      </div>
+    </Layout>
   );
 };
 

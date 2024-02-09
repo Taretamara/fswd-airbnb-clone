@@ -28,7 +28,7 @@ properties = Property.create([
     beds: 1,
     baths: 1,
     image_url: 'https://cdn.altcademy.com/assets/images/medium/airbnb_clone/1.jpg',
-    user: users.first
+    user: 'Sarah'
   },{
     title: 'Bright & Airy in Highland Park',
     description: 'My spacious two-bedroom home has everything you need for your NYC trip. On the first floor, but set above street level, I am offering two bedrooms, bathroom, kitchen with a dining/living area, plus ROKU tv, WIFI, and washer/dryer.',
