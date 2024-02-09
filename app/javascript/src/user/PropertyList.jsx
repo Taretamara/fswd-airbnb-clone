@@ -1,5 +1,6 @@
 // propertylist
 import React from 'react';
+import AddPropertyWidget from './addPropertyWidget';
 
 const PropertyList = () => {
 
@@ -8,7 +9,7 @@ const PropertyList = () => {
       <h3>Your Properties</h3>
     </div>
     <div className="row ms-5">
-      <button>Add Property</button>
+      <AddPropertyWidget />
     </div>
   );
 };
