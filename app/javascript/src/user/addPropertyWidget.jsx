@@ -4,7 +4,18 @@ import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 class AddPropertyWidget extends React.Component {
   state = {
     authenticated: false,
-    
+  }
+
+  componentDidMount() {
+    fetch('/api/authenticated')
+      .then(handleErrors)
+      .then(data => {
+        this.setState({
+          authenticated: data.authenticated,
+        })
+      })
+
+    this.submitProperty();
   }
 
   const submitProperty = (event) => {
