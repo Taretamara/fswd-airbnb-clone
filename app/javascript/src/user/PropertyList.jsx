@@ -5,9 +5,12 @@ const PropertyList = () => {
 
   return (
     <div className="row ms-5">
-      <div className="col-12">
-        <h3>Your Properties</h3>
-      </div>
+      <h3>Your Properties</h3>
+    </div>
+    <div className="row ms-5">
+      <form>
+        <input></input>
+      </form>
     </div>
   );
 };
