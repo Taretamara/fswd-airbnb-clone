@@ -8,9 +8,7 @@ const PropertyList = () => {
       <h3>Your Properties</h3>
     </div>
     <div className="row ms-5">
-      <form>
-        <input></input>
-      </form>
+      <button>Add Property</button>
     </div>
   );
 };
