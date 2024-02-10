@@ -1,25 +1,29 @@
 import React from 'react';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
-
+//need to add pictures
 class AddPropertyWidget extends React.Component {
-  state = {
-    authenticated: false,
-    title: '', 
-    description: '', 
-    city: '', 
-    country: '', 
-    type: '', 
-    price: '', 
-    maxGuests: '', 
-    bedrooms: '', 
-    beds: '', 
-    baths: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      description: '',
+      city: '',
+      country: '',
+      type: '',
+      price: '',
+      maxGuests: '',
+      bedrooms: '',
+      beds: '',
+      baths: '',
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.submitProperty = this.submitProperty.bind(this);
   }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   }
 
   componentDidMount() {
@@ -80,15 +84,15 @@ render () {
     <div className="border rounded shadow-sm p-4 mb-4">
       <h4 className=" mb-3">New Property</h4>
       <form onSubmit={this.submitProperty}>
-       <input type="text" className="form-control mb-3" placeholder="Property title" value={title} onChange={this.handleChange} required ></input>
-        <input type="text" className="form-control mb-3" placeholder="Property description"  value={description} onChange={this.handleChange} required ></input>
+       <input type="text" name="title" className="form-control mb-3" placeholder="Property title" value={title} onChange={this.handleChange} required ></input>
+        <input type="text" name="description" className="form-control mb-3" placeholder="Property description"  value={description} onChange={this.handleChange} required ></input>
         <hr />
         <h6>Property Location</h6>
-        <input type="text" className="form-control mb-3" placeholder="City" value={city} onChange={this.handleChange}></input>
-        <input type="text" className="form-control mb-3" placeholder="Country" value={country} onChange={this.handleChange}></input>
+        <input type="text" name="city" className="form-control mb-3" placeholder="City" value={city} onChange={this.handleChange}></input>
+        <input type="text" name="country" className="form-control mb-3" placeholder="Country" value={country} onChange={this.handleChange}></input>
         <hr />
         <h6>Property Details</h6>
-        <select id="propertyType"  className="form-control mb-3" value={type} onChange={this.handleChange} required>
+        <select id="propertyType" name="type" className="form-control mb-3" value={type} onChange={this.handleChange} required>
           <option value="" disabled selected>Select your property type</option>
           <option value="studio">Studio</option>
           <option value="room in hotel">Room in hotel</option>
@@ -99,12 +103,12 @@ render () {
         </select>
         <div className="input-group  mb-3">
           <span className="input-group-text">$</span>
-          <input type="number" id="price"  className="form-control" value={price} onChange={this.handleChange} placeholder="Nightly Rate"  required></input>
+          <input type="number" id="price" name="price"  className="form-control" value={price} onChange={this.handleChange} placeholder="Nightly Rate"  required></input>
         </div>
-        <input type="number" id="guests" className="form-control mb-3" value={maxGuests} onChange={this.handleChange} placeholder="Max Guests" required></input>
-        <input type="number" id="bedrooms" className="form-control mb-3" value={bedrooms} onChange={this.handleChange} placeholder="Number of Bedrooms" required></input>
-        <input type="number" id="beds" className="form-control mb-3" value={beds} onChange={this.handleChange} placeholder="Number of Beds" required></input>
-        <input type="number" id="baths" className="form-control mb-3" value={baths} onChange={this.handleChange} placeholder="Number of Baths" required></input>
+        <input type="number" name="maxGuests" id="guests" className="form-control mb-3" value={maxGuests} onChange={this.handleChange} placeholder="Max Guests" required></input>
+        <input type="number" name="bedrooms" id="bedrooms" className="form-control mb-3" value={bedrooms} onChange={this.handleChange} placeholder="Number of Bedrooms" required></input>
+        <input type="number" name="beds" id="beds" className="form-control mb-3" value={beds} onChange={this.handleChange} placeholder="Number of Beds" required></input>
+        <input type="number" name="baths" id="baths" className="form-control mb-3" value={baths} onChange={this.handleChange} placeholder="Number of Baths" required></input>
         <button type="submit" className="btn btn-large btn-danger btn-block  mb-3">Add</button>
       </form>
       <button type="cancel" className="btn btn-large btn-danger btn-block" onClick={this.props.toggle}>Cancel</button>
