@@ -22,14 +22,18 @@ const UserPage = () => {
     <Layout>
       <div className="container">
         <div className="row mt-5 mb-5">
-          <div className="col-3 border rounded shadow-sm pt-2 pb-5 ps-3">
-            <h4 className="mt-3">User Dashboard</h4>
-            <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayProperties}>
-              My Properties
-            </button>
-            <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayBookings}>
-              My Bookings
-            </button>
+          <div className="col-3">
+            <div className="row border rounded shadow-sm pt-2 pb-5 ps-3">
+              <div className="col-12">
+                <h4 className="mt-3">User Dashboard</h4>
+                <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayProperties}>
+                  My Properties
+                </button>
+                <button type="button" className="btn btn-link text-decoration-none" onClick={toggleDisplayBookings}>
+                  My Bookings
+                </button>
+              </div>
+            </div>
           </div>
           <div className="col-9">
             {displayProperties && <PropertyList />}

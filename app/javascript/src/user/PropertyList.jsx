@@ -2,51 +2,36 @@
 import React from 'react';
 import AddPropertyWidget from './addPropertyWidget';
 
-const PropertyList = () => {
+class PropertyList extends React.Component {
+  state = {
+    show_widget: false,
+  }
 
-const handleDelete = (id) => {
-    fetch(`/api/properties/${id}`, safeCredentials ({
-      method: 'DELETE',
-      body: JSON.stringify({
-
-      })
-    }))
-      .then(handleErrors)
-      .then(data => {
-        console.log(data);
-        refreshPage();
-      })
-  };
+  toggle = () => {
+    this.setState(prevState => ({
+      show_widget: !prevState.show_widget,
+    }));
+  }
   
-  return (
-    <div className="row ms-5">
-      <h3>Your Properties</h3>
-    </div>
-    <div className="row">
-      <p> Do you want to add a </p>
-      <a href={`/addPropertyWidget?redirect_url=${window.location.pathname}`}>property</a>
-      <p>?</p>
-    </div>
-    {properties.map(tweet => (
-          <div className="row" key={property.id}>
-            <button className="delete position-absolute top-0 end-0 m-1" onClick={()=>handleDelete(property.id)} >X</button>
-            <h5><a href={`/property/${property.id}`}>{property.title}</a></h5>
-            <p className="p-1 ps-2 m-2">{property.description}</p>
-        </div>        
-        ))}
-    {properties.map(property => {
-              return (
-                <div key={property.id} className="col-6 col-lg-4 mb-4 property">
-                  <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                    <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.image_url})` }} />
-                    <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
-                    <h6 className="mb-0">{property.title}</h6>
-                    <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
-                  </a>
-                </div>
-              )
-            })}
-  );
+  render () {
+    const { show_widget } = this.state;
+    return (
+      <div className=" ms-5">
+        <div className="row">
+          <h3>Your Properties</h3>
+        </div>
+        <div className="row">
+          {show_widget ? (
+            <AddPropertyWidget toggle={this.toggle} />
+          ) : (
+            <div>
+              <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggle}>property</button>?</p>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
 };
 
 export default PropertyList;
