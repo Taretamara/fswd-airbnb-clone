@@ -13,5 +13,41 @@ module Api
 
       render 'api/properties/show', status: :ok
     end
+
+    def create 
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      user = session.user
+      @property = user.properties.new(property_params)
+
+      if @property.save
+        render 'api/properties/create'
+      end
+    end
+
+    def destroy
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      user = session.user
+
+      return render json: { success: false } unless session
+
+      user = session.user
+      property = Property.find_by(id: params[:id])
+
+      if property && (property.user == user) && property.destroy
+        render json: {
+          success: true
+        }
+      else
+        render json: {
+          success: false
+        }
+      end
+    end
+
+    def property_params
+      params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, :image)
+    end
   end
 end

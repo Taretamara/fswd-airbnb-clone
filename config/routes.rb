@@ -30,7 +30,9 @@ Rails.application.routes.draw do
 
     # Properties
     post '/properties' => 'properties#create'
+    delete '/properties/:id' => 'properties#destroy'
     get '/properties/:user' => 'properties#show'
+    get '/properties' => 'properties#index'
 
     # Stripe webhook
     post '/charges/mark_complete' => 'charges#mark_complete'

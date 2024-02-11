@@ -1,6 +1,7 @@
 import React from 'react';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 //need to add pictures
+
 class AddPropertyWidget extends React.Component {
   constructor(props) {
     super(props);
@@ -26,23 +27,7 @@ class AddPropertyWidget extends React.Component {
     this.setState({ [name]: value });
   }
 
-  componentDidMount() {
-    fetch('/api/authenticated')
-      .then(handleErrors)
-      .then(data => {
-        this.setState({
-          authenticated: data.authenticated,
-        })
-      })
-
-    this.submitProperty();
-  };
-
-  submitProperty = (e) => {
-    if (e) { e.preventDefault(); }
-    this.setState({
-      error: '',
-    });
+  submitProperty = () => {
 
     fetch('/api/properties', safeCredentials ({
       method: 'POST',
@@ -64,26 +49,20 @@ class AddPropertyWidget extends React.Component {
     .then(handleErrors)
     .then(data => {
       if (data.properties) {
-        window.location.replace("/user");
         console.log(data)
+        this.props.toggle
       }
-    })
-    .catch(error => {
-      this.setState({
-        error: 'Could not sign up.',
-      })
     })
 };
 
-render () {
+render() {
   const {title, description, city, country, type, price, maxGuests, bedrooms, beds, baths } = this.state;
-
 
   return (
     <React.Fragment>
     <div className="border rounded shadow-sm p-4 mb-4">
       <h4 className=" mb-3">New Property</h4>
-      <form onSubmit={this.submitProperty}>
+      <form onSubmit={(e) => {e.preventDefault();this.submitProperty();this.props.toggle();}}>
        <input type="text" name="title" className="form-control mb-3" placeholder="Property title" value={title} onChange={this.handleChange} required ></input>
         <input type="text" name="description" className="form-control mb-3" placeholder="Property description"  value={description} onChange={this.handleChange} required ></input>
         <hr />
