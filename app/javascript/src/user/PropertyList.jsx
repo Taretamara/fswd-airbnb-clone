@@ -20,34 +20,36 @@ class PropertyList extends React.Component {
   };
 
   fetchProperties = () => {
-    fetch('/api/properties?page=1')
-      .then(handleErrors)
-      .then(data => {
-        this.setState({
-          properties: data.properties,
-          total_pages: data.total_pages,
-          next_page: data.next_page,
-          loading: false,
-        })
+    fetch(`/api/user/properties?page=1`, safeCredentials ({
+      method: 'GET',
+    }))
+    .then(handleErrors)
+    .then(data => {
+      this.setState({
+        properties: data.properties,
+        total_pages: data.total_pages,
+        next_page: data.next_page,
+        loading: false,
       })
-  };
+    })
+};
 
-  loadMore = () => {
-    if (this.state.next_page === null) {
-      return;
-    }
-    this.setState({ loading: true });
-    fetch(`/api/properties?page=${this.state.next_page}`)
-      .then(handleErrors)
-      .then(data => {
-        this.setState({
-          properties: this.state.properties.concat(data.properties),
-          total_pages: data.total_pages,
-          next_page: data.next_page,
-          loading: false,
-        })
+loadMore = () => {
+  if (this.state.next_page === null) {
+    return;
+  }
+  this.setState({ loading: true });
+  fetch(`/api/user/properties?page=${this.state.next_page}`)
+    .then(handleErrors)
+    .then(data => {
+      this.setState({
+        properties: this.state.properties.concat(data.properties),
+        total_pages: data.total_pages,
+        next_page: data.next_page,
+        loading: false,
       })
-  };
+    })
+};
 
   handleDelete = (id) => {
     fetch(`/api/properties/${id}`, safeCredentials ({
@@ -77,7 +79,7 @@ class PropertyList extends React.Component {
   }
   
   render () {
-    const { show_widget, properties, next_page, loading } = this.state;
+    const { show_widget, properties, next_page, loading  } = this.state;
     return (
       <div className=" ms-5">
         <div className="row">

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     post '/properties' => 'properties#create'
     delete '/properties/:id' => 'properties#destroy'
     get '/properties/:user' => 'properties#show'
+    get '/user/properties' => 'properties#show_by_user'
     get '/properties' => 'properties#index'
 
     # Stripe webhook
