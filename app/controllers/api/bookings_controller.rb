@@ -24,6 +24,11 @@ module Api
       render 'api/bookings/index'
     end
 
+    def index
+      @bookings = Booking.all.order(created_at: :desc)
+      render 'api/bookings/index'
+    end
+
     private
 
     def booking_params

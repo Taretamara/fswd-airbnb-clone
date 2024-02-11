@@ -1,19 +1,24 @@
 //BookingList
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import Layout from '@src/layout';
+import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 
-const BookingList = () => {
-  
-
-
-  return (
-    <div className="row ms-5">
-      <div className="col-12">
-        <h3>Your Bookings</h3>
+class BookingList extends React.Component {
+ 
+  render () {
+    
+    return (
+      <div className=" ms-5">
+        <div className="row">
+          <h3>Your Bookings</h3>
+        </div>
+        <div className="row">
+         
+        </div>
       </div>
-  </div>
-  );
+    )
+  }
 };
 
 export default BookingList;
+
