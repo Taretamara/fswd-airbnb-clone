@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     get '/properties/:user' => 'properties#show'
     get '/user/properties' => 'properties#show_by_user'
     get '/properties' => 'properties#index'
+    post '/properties/update' => 'properties#update'
 
     # Stripe webhook
     post '/charges/mark_complete' => 'charges#mark_complete'
