@@ -27,6 +27,34 @@ class PropertyWidget extends React.Component {
     this.setState({ [name]: value });
   }
 
+  
+  updateProperty = () => {
+  fetch('/api/properties/update', safeCredentials ({
+      method: 'POST',
+      body: JSON.stringify({
+        property: {
+          title: this.state.title,
+          description: this.state.description,
+          city: this.state.city,
+          country: this.state.country,
+          property_type: this.state.type,
+          price_per_night: this.state.price,
+          max_guests: this.state.maxGuests,
+          bedrooms: this.state.bedrooms,
+          beds: this.state.beds,
+          baths: this.state.baths,
+        }
+      })
+    }))
+    .then(handleErrors)
+    .then(data => {
+      if (data.properties) {
+        console.log(data)
+        this.props.toggle
+      }
+    })
+};
+
   submitProperty = () => {
 
     fetch('/api/properties', safeCredentials ({
