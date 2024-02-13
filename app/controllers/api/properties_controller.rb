@@ -34,6 +34,19 @@ module Api
         render 'api/properties/create' if @property.save
     end
 
+    def update
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      user = session.user
+      @property = user.properties.find(params[:id])
+    
+      if @property.update(property_params)
+        render 'api/properties/update' 
+      else
+        render json: @property.errors, status: :unprocessable_entity
+      end
+    end
+
     def destroy
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
