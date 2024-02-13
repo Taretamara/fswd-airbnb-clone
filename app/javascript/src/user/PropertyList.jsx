@@ -1,6 +1,6 @@
 // propertylist
 import React, { useEffect, useState } from 'react';
-import AddPropertyWidget from './addPropertyWidget';
+import PropertyWidget from './propertyWidget';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 
 import './user.scss';
@@ -111,7 +111,7 @@ class PropertyList extends React.Component {
         </div>
         <div className="row">
           {show_widget ? (
-            <AddPropertyWidget toggle={this.toggle} />
+            <PropertyWidget toggle={this.toggle} />
           ) : (
             <div>
               <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggle}>property</button>?</p>
