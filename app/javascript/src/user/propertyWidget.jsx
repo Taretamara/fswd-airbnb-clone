@@ -2,7 +2,7 @@ import React from 'react';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 //need to add pictures
 
-class AddPropertyWidget extends React.Component {
+class PropertyWidget extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -96,4 +96,4 @@ render() {
   )
 }
 }
-export default AddPropertyWidget;
+export default PropertyWidget;
