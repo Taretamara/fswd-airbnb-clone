@@ -132,9 +132,7 @@ class PropertyList extends React.Component {
                         {show_widget ? (
                             <PropertyWidget toggle={this.toggle} />
                           ) : (
-                            <div>
-                              <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggle}>property</button>?</p>
-                            </div>
+                              <button type="button" className="btn btn-link p-0 text-danger" onClick={this.toggle(property.id)}>Edit</button>
                           )}
                         <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
                       </div>
