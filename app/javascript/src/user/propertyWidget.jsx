@@ -16,7 +16,7 @@ class PropertyWidget extends React.Component {
       bedrooms: '',
       beds: '',
       baths: '',
-      propertyId: props.propertyId || null,
+      propertyId: this.props.propertyId || null,
     };
 
     this.handleChange = this.handleChange.bind(this);
