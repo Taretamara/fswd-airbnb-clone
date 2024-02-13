@@ -31,10 +31,22 @@ module Api
       render 'api/bookings/index'
     end
 
+    def show_by_user
+      token = cookies.signed[:airbnb_session_token]
+      session = Session.find_by(token: token)
+      return render json: { error: 'user not logged in' }, status: :unauthorized unless session
+      
+      user = session.user if session
+      @bookings = user.bookings.order(created_at: :desc)
+      return render json: { error: 'not_found' }, status: :not_found unless @bookings
+
+      render 'api/bookings/show_by_user', status: :ok
+    end
+
     private
 
     def booking_params
-      params.require(:booking).permit(:property_id, :start_date, :end_date)
+      params.require(:booking).permit(:property_id, :start_date, :end_date, :property_title, :property_image)
     end
   end
 end

@@ -14,42 +14,39 @@ class PropertyList extends React.Component {
     loading: true,
   }
 
-  //user properties *need to change to user specific*
   componentDidMount() {
     this.fetchProperties();
   };
 
   fetchProperties = () => {
-    fetch(`/api/user/properties?page=1`, safeCredentials ({
-      method: 'GET',
-    }))
-    .then(handleErrors)
-    .then(data => {
-      this.setState({
-        properties: data.properties,
-        total_pages: data.total_pages,
-        next_page: data.next_page,
-        loading: false,
+    fetch('/api/user/properties?page=1')
+      .then(handleErrors)
+      .then(data => {
+        this.setState({
+          properties: data.properties,
+          total_pages: data.total_pages,
+          next_page: data.next_page,
+          loading: false,
+        })
       })
-    })
-};
-
-loadMore = () => {
-  if (this.state.next_page === null) {
-    return;
   }
-  this.setState({ loading: true });
-  fetch(`/api/user/properties?page=${this.state.next_page}`)
-    .then(handleErrors)
-    .then(data => {
-      this.setState({
-        properties: this.state.properties.concat(data.properties),
-        total_pages: data.total_pages,
-        next_page: data.next_page,
-        loading: false,
+
+  loadMore = () => {
+    if (this.state.next_page === null) {
+      return;
+    }
+    this.setState({ loading: true });
+    fetch(`/api/user/properties?page=${this.state.next_page}`)
+      .then(handleErrors)
+      .then(data => {
+        this.setState({
+          properties: this.state.properties.concat(data.properties),
+          total_pages: data.total_pages,
+          next_page: data.next_page,
+          loading: false,
+        })
       })
-    })
-};
+  }
 
   handleDelete = (id) => {
     fetch(`/api/properties/${id}`, safeCredentials ({
@@ -100,19 +97,15 @@ loadMore = () => {
                 <div key={property.id} className="property row mb-2">
                   <div className="col-6">
                     <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                      <div className="property-image rounded" style={{ backgroundImage: `url(${property.image_url})` }} />
+                      <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.image_url})` }} />
                     </a>
-                  </div>
+                    </div>
                     <div className="col-6 position-relative">
                       <div className="position-absolute top-0 end-0">
                         <button type="button" className="btn btn-link p-0 me-2 text-danger">Edit</button>
                         <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
                       </div>
-                      <p className="text-uppercase mb-0 text-secondary w-100">
-                        <small>
-                          <b>{property.city}</b>
-                        </small>
-                      </p>
+                      <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
                       <h6 className="mb-0">{property.title}</h6>
                       <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
                       <h6>Bookings:</h6>

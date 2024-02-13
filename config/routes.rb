@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
     post '/booking/:id/success' => 'bookings#create'
     get '/booking/:user' => 'bookings#show'
+    get '/user/bookings' => 'bookings#show_by_user'
     get '/bookings' => 'bookings#index'
 
     # Sessions
