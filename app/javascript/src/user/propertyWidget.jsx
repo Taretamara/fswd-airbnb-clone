@@ -5,23 +5,42 @@ import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 class PropertyWidget extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      title: '',
-      description: '',
-      city: '',
-      country: '',
-      type: '',
-      price: '',
-      maxGuests: '',
-      bedrooms: '',
-      beds: '',
-      baths: '',
-      id: this.props.id || null,
+      title: props.property.title || '',
+      description: props.property.description || '',
+      city: props.property.city || '',
+      country: props.property.country || '',
+      type: props.property.property_type || '',
+      price: props.property.price_per_night || '',
+      maxGuests: props.property.max_guests || '',
+      bedrooms: props.property.bedrooms || '',
+      beds: props.property.beds || '',
+      baths: props.property.baths || '',
+      id: props.property.id || null,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.submitProperty = this.submitProperty.bind(this);
     this.updateProperty = this.updateProperty.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.property !== this.props.property) {
+      this.setState({
+        title: this.props.property.title || '',
+        description: this.props.property.description || '',
+        city: this.props.property.city || '',
+        country: this.props.property.country || '',
+        type: this.props.property.property_type || '',
+        price: this.props.property.price_per_night || '',
+        maxGuests: this.props.property.max_guests || '',
+        bedrooms: this.props.property.bedrooms || '',
+        beds: this.props.property.beds || '',
+        baths: this.props.property.baths || '',
+        id: this.props.property.id || null,
+      });
+    }
   }
 
   handleChange(event) {

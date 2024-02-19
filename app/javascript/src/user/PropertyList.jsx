@@ -12,6 +12,19 @@ class PropertyList extends React.Component {
     total_pages: null,
     next_page: null,
     loading: true,
+    property: {
+      title: '',
+      description: '',
+      city: '',
+      country: '',
+      type: '',
+      price: '',
+      maxGuests: '',
+      bedrooms: '',
+      beds: '',
+      baths: '',
+      id: null,
+    },
   }
 
   componentDidMount() {
@@ -70,6 +83,22 @@ class PropertyList extends React.Component {
     }));
   }
 
+  //toggle widget and add existing property data
+  editProperty = (id) => {
+    this.setState(prevState => ({
+      show_widget: !prevState.show_widget,
+    }));
+    fetch(`/api/properties/${id}`)
+      .then(handleErrors)
+      .then(data => {
+        console.log(data);
+
+        this.setState({
+          property: data.property,
+        })
+      })
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (prevState.show_widget !== this.state.show_widget && !this.state.show_widget) {
       this.fetchProperties();
@@ -85,7 +114,7 @@ class PropertyList extends React.Component {
         </div>
         <div className="row">
           {show_widget ? (
-            <PropertyWidget toggle={this.toggle} />
+            <PropertyWidget toggle={this.toggle} property={this.state.property} />
           ) : (
             <div>
               <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggle}>property</button>?</p>
@@ -103,7 +132,7 @@ class PropertyList extends React.Component {
                     </div>
                     <div className="col-6 position-relative">
                       <div className="position-absolute top-0 end-0">
-                        <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.toggle(property.id)}>Edit</button>
+                        <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
                         <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
                       </div>
                       <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>

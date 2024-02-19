@@ -8,14 +8,13 @@ Rails.application.routes.draw do
   namespace :api do
     # Add routes below this line
     resources :users, only: [:create]
-    resources :sessions, only: [:create, :destroy]
-    resources :properties, only: [:index, :show]
+    resources :sessions, only: %i[create destroy]
+    resources :properties, only: %i[index show]
     resources :bookings, only: [:create]
     resources :charges, only: [:create]
 
-    # User 
+    # User
     post '/users' => 'users#create'
-
 
     # Bookings
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
@@ -32,7 +31,7 @@ Rails.application.routes.draw do
     # Properties
     post '/properties' => 'properties#create'
     delete '/properties/:id' => 'properties#destroy'
-    get '/properties/:user' => 'properties#show'
+    get '/properties/:id' => 'properties#show'
     get '/user/properties' => 'properties#show_by_user'
     get '/properties' => 'properties#index'
     post '/properties/update' => 'properties#update'
@@ -40,5 +39,4 @@ Rails.application.routes.draw do
     # Stripe webhook
     post '/charges/mark_complete' => 'charges#mark_complete'
   end
-
 end
