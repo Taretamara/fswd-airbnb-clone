@@ -1,16 +1,17 @@
 module Api
   class PropertiesController < ApplicationController
-  def index
-     @properties = Property.order(created_at: :desc).page(params[:page]).per(6)
-     return render json: { error: 'not_found' }, status: :not_found if !@properties
-        render 'api/properties/index', status: :ok
+    def index
+      @properties = Property.order(created_at: :desc).page(params[:page]).per(6)
+      return render json: { error: 'not_found' }, status: :not_found unless @properties
+
+      render 'api/properties/index', status: :ok
     end
 
     def show_by_user
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
       return render json: { error: 'user not logged in' }, status: :unauthorized unless session
-      
+
       user = session.user if session
       @properties = user.properties.order(created_at: :desc).page(params[:page]).per(6)
       return render json: { error: 'not_found' }, status: :not_found unless @properties
@@ -25,13 +26,13 @@ module Api
       render 'api/properties/show', status: :ok
     end
 
-    def create 
+    def create
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
       user = session.user
       @property = user.properties.new(property_params)
 
-        render 'api/properties/create' if @property.save
+      render 'api/properties/create' if @property.save
     end
 
     def update
@@ -39,9 +40,9 @@ module Api
       session = Session.find_by(token: token)
       user = session.user
       @property = user.properties.find(params[:id])
-    
+
       if @property.update(property_params)
-        render 'api/properties/update' 
+        render 'api/properties/update'
       else
         render json: @property.errors, status: :unprocessable_entity
       end
