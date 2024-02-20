@@ -1,13 +1,15 @@
 // propertylist
 import React, { useEffect, useState } from 'react';
-import PropertyWidget from './propertyWidget';
+import AddPropertyWidget from './addPropertyWidget';
+import UpdatePropertyWidget from './updatePropertyWidget';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
 
 import './user.scss';
 
 class PropertyList extends React.Component {
   state = {
-    show_widget: false,
+    show_add_widget: false,
+    show_update_widget: false,
     properties: [],
     total_pages: null,
     next_page: null,
@@ -27,6 +29,7 @@ class PropertyList extends React.Component {
     },
   }
 
+  //-------fetch properties-----------
   componentDidMount() {
     this.fetchProperties();
   };
@@ -61,7 +64,7 @@ class PropertyList extends React.Component {
       })
   }
 
-
+  //-------------Delete Properties-------------
   handleDelete = (id) => {
     fetch(`/api/properties/${id}`, safeCredentials ({
       method: 'DELETE',
@@ -76,72 +79,84 @@ class PropertyList extends React.Component {
       })
   };
 
-  //toggel widget
-  toggle = () => {
+  //-------------Toggle AddWidget-----------------
+  toggleAdd = () => {
     this.setState(prevState => ({
-      show_widget: !prevState.show_widget,
+      show_add_widget: !prevState.show_add_widget,
     }));
   }
 
-  //toggle widget and add existing property data
-  editProperty = (id) => {
-    this.setState(prevState => ({
-      show_widget: !prevState.show_widget,
-    }));
-    fetch(`/api/properties/${id}`)
-      .then(handleErrors)
-      .then(data => {
-        console.log(data);
+//-------------Toggle UpdateWidget-----------------
+toggleUpdate = () => {
+  this.setState(prevState => ({
+    show_update_widget: !prevState.show_update_widget,
+  }));
+}
 
-        this.setState({
-          property: data.property,
-        })
+editProperty = (id) => {
+  this.setState(prevState => ({
+    show_update_widget: !prevState.show_update_widget,
+  }));
+  fetch(`/api/properties/${id}`)
+    .then(handleErrors)
+    .then(data => {
+      console.log(data);
+
+      this.setState({
+        property: data.property,
       })
-  }
+    })
+}
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.show_widget !== this.state.show_widget && !this.state.show_widget) {
-      this.fetchProperties();
-    }
+componentDidUpdate(prevProps, prevState) {
+  if ((prevState.show_add_widget !== this.state.show_add_widget && !this.state.show_add_widget) ||
+      (prevState.show_update_widget !== this.state.show_update_widget && !this.state.show_update_widget)) {
+    this.fetchProperties();
   }
-  
+}
+
   render () {
-    const { show_widget, properties, next_page, loading  } = this.state;
+    const { show_add_widget, show_update_widget, properties, next_page, loading  } = this.state;
     return (
       <div className=" ms-5">
         <div className="row">
           <h3>Your Properties</h3>
         </div>
         <div className="row">
-          {show_widget ? (
-            <PropertyWidget toggle={this.toggle} property={this.state.property} />
+          {show_add_widget ? (
+            <AddPropertyWidget toggle={this.toggleAdd} />
           ) : (
             <div>
-              <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggle}>property</button>?</p>
+              <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggleAdd}>property</button>?</p>
             </div>
           )}
           </div>
           <div className="col-12">
-          {properties.map(property => {
+            {properties.map(property => {
               return (
                 <div key={property.id} className="property row mb-2">
                   <div className="col-6">
                     <a href={`/property/${property.id}`} className="text-body text-decoration-none">
                       <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.image_url})` }} />
                     </a>
-                    </div>
-                    <div className="col-6 position-relative">
-                      <div className="position-absolute top-0 end-0">
-                        <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
-                        <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
-                      </div>
-                      <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
-                      <h6 className="mb-0">{property.title}</h6>
-                      <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
-                      <h6>Bookings:</h6>
-                    </div>
+                  </div>
+                  <div className="col-6 position-relative">
+                    <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
+                    <h6 className="mb-0">{property.title}</h6>
+                    <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
+                    <h6>Bookings:</h6>
+                  </div>
+                  <div className="col-12">
+                    {show_update_widget ? (
+                      <UpdatePropertyWidget toggle={this.toggleUpdate} property={this.state.property} />
+                    ) : (
+                      <button type="button" className="btn btn-link p-0 me-2 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
+                    )}
+                    <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
+                  </div>
+                  <hr className="m-3"/>
                 </div>
-              )
+              );
             })}
           </div>
           {loading && <p>loading...</p>}
