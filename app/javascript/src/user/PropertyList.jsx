@@ -10,6 +10,7 @@ class PropertyList extends React.Component {
   state = {
     show_add_widget: false,
     show_update_widget: false,
+    existingBookings: [],
     properties: [],
     total_pages: null,
     next_page: null,
@@ -44,8 +45,11 @@ class PropertyList extends React.Component {
           total_pages: data.total_pages,
           next_page: data.next_page,
           loading: false,
-        })
-      })
+        });
+        data.properties.forEach(property => {
+          this.getPropertyBookings(property.id);
+        });
+      });
   }
 
   loadMore = () => {
@@ -61,7 +65,32 @@ class PropertyList extends React.Component {
           total_pages: data.total_pages,
           next_page: data.next_page,
           loading: false,
-        })
+        });
+        data.properties.forEach(property => {
+          this.getPropertyBookings(property.id);
+        });
+      });
+  }
+
+  //-------------fetch bookings----------------
+
+  getPropertyBookings = (propertyId) => {
+    fetch(`/api/properties/${propertyId}/bookings`)
+      .then(handleErrors)
+      .then(data => {
+        console.log(data);
+        const updatedProperties = this.state.properties.map(property => {
+          if (property.id === propertyId) {
+            return {
+              ...property,
+              bookings: data.bookings
+            };
+          }
+          return property;
+        });
+        this.setState({
+          properties: updatedProperties
+        });
       })
   }
 
@@ -75,7 +104,6 @@ class PropertyList extends React.Component {
     }))
       .then(handleErrors)
       .then(data => {
-        console.log(data);
         this.fetchProperties();
       })
   };
@@ -87,39 +115,37 @@ class PropertyList extends React.Component {
     }));
   }
 
-//-------------Toggle UpdateWidget-----------------
-toggleUpdate = () => {
-  this.setState(prevState => ({
-    show_update_widget: !prevState.show_update_widget,
-  }));
-}
-
-editProperty = (id) => {
-  this.setState(prevState => ({
-    show_update_widget: !prevState.show_update_widget,
-  }));
-  fetch(`/api/properties/${id}`)
-    .then(handleErrors)
-    .then(data => {
-      console.log(data);
-
-      this.setState({
-        property: data.property,
-      })
-    })
-}
-
-componentDidUpdate(prevProps, prevState) {
-  if ((prevState.show_add_widget !== this.state.show_add_widget && !this.state.show_add_widget) ||
-      (prevState.show_update_widget !== this.state.show_update_widget && !this.state.show_update_widget)) {
-    this.fetchProperties();
+  //-------------Toggle UpdateWidget-----------------
+  toggleUpdate = () => {
+    this.setState(prevState => ({
+      show_update_widget: !prevState.show_update_widget,
+    }));
   }
-}
+
+  editProperty = (id) => {
+    this.setState(prevState => ({
+      show_update_widget: !prevState.show_update_widget,
+    }));
+    fetch(`/api/properties/${id}`)
+      .then(handleErrors)
+      .then(data => {
+        this.setState({
+          property: data.property,
+        });
+      });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if ((prevState.show_add_widget !== this.state.show_add_widget && !this.state.show_add_widget) ||
+      (prevState.show_update_widget !== this.state.show_update_widget && !this.state.show_update_widget)) {
+      this.fetchProperties();
+    }
+  }
 
   render () {
-    const { show_add_widget, show_update_widget, properties, next_page, loading  } = this.state;
+    const { show_add_widget, show_update_widget, properties, next_page, loading } = this.state;
     return (
-      <div className=" ms-5">
+      <div className="ms-5">
         <div className="row">
           <h3>Your Properties</h3>
         </div>
@@ -131,44 +157,49 @@ componentDidUpdate(prevProps, prevState) {
               <p>Do you want to add a <button type="button" className="btn btn-link text-decoration-none p-0 m-0" onClick={this.toggleAdd}>property</button>?</p>
             </div>
           )}
-          </div>
-          <div className="col-12">
-            {properties.map(property => {
-              return (
-                <div key={property.id} className="property row mb-2">
-                  <div className="col-6">
-                    <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                      <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.images})` }} />
-                    </a>
-                  </div>
-                  <div className="col-6 position-relative">
-                    <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
-                    <h6 className="mb-0">{property.title}</h6>
-                    <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
-                    <h6>Bookings:</h6>
-                  </div>
-                  <div className="col-12">
-                    {show_update_widget ? (
-                      <UpdatePropertyWidget toggle={()=>this.editProperty(property.id)} property={this.state.property} />
-                    ) : (
-                      <button type="button" className="btn btn-link p-0 me-2 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
-                    )}
-                    <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
-                  </div>
-                  <hr className="m-3"/>
+        </div>
+        <div className="col-12">
+          {properties.map(property => {
+            return (
+              <div key={property.id} className="property row mb-2">
+                <div className="col-6">
+                  <a href={`/property/${property.id}`} className="text-body text-decoration-none">
+                    <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.images})` }} />
+                  </a>
                 </div>
-              );
-            })}
+                <div className="col-6 position-relative">
+                  <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
+                  <h6 className="mb-0">{property.title}</h6>
+                  <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
+                  <h6>Bookings:</h6>
+                  {property.bookings && property.bookings.map(booking => (
+                    <div key={booking.id}>
+                      <p>{booking.name}: {booking.start_date} to {booking.end_date}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="col-12">
+                  {show_update_widget ? (
+                    <UpdatePropertyWidget toggle={()=>this.editProperty(property.id)} property={this.state.property} />
+                  ) : (
+                    <button type="button" className="btn btn-link p-0 me-2 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
+                  )}
+                  <button type="button" className="btn btn-link p-0 text-danger" onClick={() => this.handleDelete(property.id)}>Delete</button>
+                </div>
+                <hr className="m-3"/>
+              </div>
+            );
+          })}
+        </div>
+        {loading && <p>loading...</p>}
+        {(loading || next_page === null) ||
+          <div className="text-center">
+            <button
+              className="btn btn-light mb-4"
+              onClick={this.loadMore}
+            >load more</button>
           </div>
-          {loading && <p>loading...</p>}
-          {(loading || next_page === null) ||
-            <div className="text-center">
-              <button
-                className="btn btn-light mb-4"
-                onClick={this.loadMore}
-              >load more</button>
-            </div>
-          }
+        }
       </div>
     )
   }
