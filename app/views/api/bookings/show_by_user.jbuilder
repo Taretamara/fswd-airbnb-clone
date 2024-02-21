@@ -5,5 +5,6 @@ json.bookings do
     json.end_date booking.end_date
     json.title booking.property.title
     json.price_per_night booking.property.price_per_night
+    json.is_paid booking.is_paid?
   end
 end

@@ -51,9 +51,7 @@ class BookingWidget extends React.Component {
           // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
           sessionId: response.charge.checkout_session_id,
         }).then((result) => {
-          // If `redirectToCheckout` fails due to a browser or network
-          // error, display the localized error message to your customer
-          // using `result.error.message`.
+          `result.error.message`
         });
       })
       .catch(error => {

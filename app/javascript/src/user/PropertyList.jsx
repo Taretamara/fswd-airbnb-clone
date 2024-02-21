@@ -135,6 +135,15 @@ class PropertyList extends React.Component {
       });
   }
 
+  calculateTotal = (booking) => {
+    const { start_date, end_date, price_per_night } = booking;
+    const startDate = new Date(start_date);
+    const endDate = new Date(end_date);
+    const timeDifference = Math.abs(endDate.getTime() - startDate.getTime());
+    const numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Calculate number of days
+    return numberOfDays * price_per_night;
+  };
+
   componentDidUpdate(prevProps, prevState) {
     if ((prevState.show_add_widget !== this.state.show_add_widget && !this.state.show_add_widget) ||
       (prevState.show_update_widget !== this.state.show_update_widget && !this.state.show_update_widget)) {
@@ -172,11 +181,15 @@ class PropertyList extends React.Component {
                   <h6 className="mb-0">{property.title}</h6>
                   <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
                   <h6>Bookings:</h6>
-                  {property.bookings && property.bookings.map(booking => (
-                    <div key={booking.id}>
-                      <p>{booking.name}: {booking.start_date} to {booking.end_date}</p>
-                    </div>
-                  ))}
+                  {property.bookings && property.bookings.map(booking => {
+                    const totalPrice = this.calculateTotal(booking);
+                    return (
+                      <div key={booking.id}>
+                        <p className="mb-0">{booking.name} ${totalPrice.toLocaleString()} {booking.is_paid ? 'Paid' : 'Pending Payment'}</p>
+                        <p>{booking.start_date} to {booking.end_date}</p>
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="col-12">
                   {show_update_widget ? (
