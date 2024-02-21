@@ -10,10 +10,6 @@ json.properties do
     json.country property.country
     json.property_type property.property_type
     json.price_per_night property.price_per_night
-    json.images do
-    json.array! @properties.images do |image|
-      json.image_url url_for(image)
-    end
-  end
+    json.images json.image_url
   end
 end
