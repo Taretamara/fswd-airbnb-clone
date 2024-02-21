@@ -137,7 +137,7 @@ componentDidUpdate(prevProps, prevState) {
                 <div key={property.id} className="property row mb-2">
                   <div className="col-6">
                     <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                      <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.image_url})` }} />
+                      <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.images})` }} />
                     </a>
                   </div>
                   <div className="col-6 position-relative">
