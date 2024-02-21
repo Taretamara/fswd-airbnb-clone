@@ -49,7 +49,7 @@ class UpdatePropertyWidget extends React.Component {
   }
 
   updateProperty() {
-    fetch('/api/properties/update', safeCredentials ({
+    fetch(`/api/properties/${this.state.id}`, safeCredentials ({
       method: 'POST',
       body: JSON.stringify({
         property: {

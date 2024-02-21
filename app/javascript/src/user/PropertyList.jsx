@@ -148,7 +148,7 @@ componentDidUpdate(prevProps, prevState) {
                   </div>
                   <div className="col-12">
                     {show_update_widget ? (
-                      <UpdatePropertyWidget toggle={this.toggleUpdate} property={this.state.property} />
+                      <UpdatePropertyWidget toggle={()=>this.editProperty(property.id)} property={this.state.property} />
                     ) : (
                       <button type="button" className="btn btn-link p-0 me-2 text-danger" onClick={() => this.editProperty(property.id)}>Edit</button>
                     )}

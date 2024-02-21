@@ -39,9 +39,9 @@ module Api
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
       user = session.user
-      @property = user.properties.find(params[:id])
+      property = Property.find(params[:id])
 
-      if @property.update(property_params)
+      if property.update(property_params)
         render 'api/properties/update'
       else
         render json: @property.errors, status: :unprocessable_entity
@@ -70,7 +70,7 @@ module Api
     end
 
     def property_params
-      params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, :image)
+      params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, images:[],)
     end
   end
 end
