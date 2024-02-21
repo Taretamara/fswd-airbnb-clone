@@ -17,15 +17,22 @@ class AddPropertyWidget extends React.Component {
       bedrooms: '',
       beds: '',
       baths: '',
+      images: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
     this.submitProperty = this.submitProperty.bind(this);
   }
 
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({ [name]: value });
+  }
+
+  handleImageChange(event) {
+    const files = event.target.files;
+    this.setState({ images: files });
   }
 
   submitProperty() {
@@ -35,16 +42,16 @@ class AddPropertyWidget extends React.Component {
       formData.append('property[images][]', fileInputElement.files[i]);
     }
     // Set other params in the form data.
-    formData.set('property[title]', this.state.title);
-    formData.set('property[description]', this.state.description);
-    formData.set('property[city]', this.state.city);
-    formData.set('property[country]', this.state.country);
-    formData.set('property[property_type]', this.state.type);
-    formData.set('property[price_per_night]', this.state.price);
-    formData.set('property[max_guests]', this.state.maxGuests);
-    formData.set('property[bedrooms]', this.state.bedrooms);
-    formData.set('property[beds]', this.state.beds);
-    formData.set('property[baths]', this.state.baths);
+    formData.append('property[title]', this.state.title);
+    formData.append('property[description]', this.state.description);
+    formData.append('property[city]', this.state.city);
+    formData.append('property[country]', this.state.country);
+    formData.append('property[property_type]', this.state.type);
+    formData.append('property[price_per_night]', this.state.price);
+    formData.append('property[max_guests]', this.state.maxGuests);
+    formData.append('property[bedrooms]', this.state.bedrooms);
+    formData.append('property[beds]', this.state.beds);
+    formData.append('property[baths]', this.state.baths);
 
     fetch('/api/properties', safeCredentialsForm ({
       method: 'POST',
@@ -95,7 +102,7 @@ class AddPropertyWidget extends React.Component {
             <input type="number" name="beds" id="beds" className="form-control mb-3" value={beds} onChange={this.handleChange} placeholder="Number of Beds" required />
             <input type="number" name="baths" id="baths" className="form-control mb-3" value={baths} onChange={this.handleChange} placeholder="Number of Baths" required />
             <label className="me-2">Property Image:</label>
-            <input type="file" id="image-select" name="image" accept="image/*" onChange={this.handleChange}/>
+            <input type="file" id="image-select" name="image" accept="image/*" onChange={this.handleImageChange}/>
             <div className="float-end d-inline-block">
               <button type="submit" className="btn btn-large btn-danger btn-block">Add</button>
             </div>

@@ -26,6 +26,7 @@ class PropertyList extends React.Component {
       beds: '',
       baths: '',
       id: null,
+      images: [],
     },
   }
 
