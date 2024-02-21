@@ -4,6 +4,6 @@ json.bookings do
     json.start_date booking.start_date
     json.end_date booking.end_date
     json.title booking.property.title
-    json.image_url booking.property.image_url
+    json.price_per_night booking.property.price_per_night
   end
 end

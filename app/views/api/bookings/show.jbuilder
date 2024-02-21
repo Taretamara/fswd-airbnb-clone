@@ -5,4 +5,5 @@ json.booking do
     json.title @booking.property.title
     json.image @booking.property.image_url
     json.description @booking.property.description
+    json.price_per_night @booking.property.price_per_night
   end
