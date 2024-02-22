@@ -11,4 +11,5 @@ json.property do
         json.url url_for(image)
       end
     end
+  end
 end

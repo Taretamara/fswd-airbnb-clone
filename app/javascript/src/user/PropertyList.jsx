@@ -28,7 +28,6 @@ class PropertyList extends React.Component {
       beds: '',
       baths: '',
       id: null,
-      images: [],
     },
   }
 
@@ -79,7 +78,6 @@ class PropertyList extends React.Component {
     fetch(`/api/properties/${propertyId}/bookings`)
       .then(handleErrors)
       .then(data => {
-        console.log(data);
         const updatedProperties = this.state.properties.map(property => {
           if (property.id === propertyId) {
             return {
@@ -174,12 +172,16 @@ class PropertyList extends React.Component {
             return (
               <div key={property.id} className="property row mb-2">
                 <div className="col-6">
-                  <a href={`/property/${property.id}`} className="text-body text-decoration-none">
-                    <div className="property-image mb-1 rounded" style={{ backgroundImage: `url(${property.images})` }} />
-                  </a>
+                  {property.images.length > 0 && (
+                    <div>
+                      {property.images.map(image => (
+                        <img key={image.id} src={image.image_url} alt="Property" />
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="col-6 position-relative">
-                  <p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p>
+                  <a href={`/property/${property.id}`} className="text-body text-decoration-none"><p className="text-uppercase mb-0 text-secondary"><small><b>{property.city}</b></small></p></a>
                   <h6 className="mb-0">{property.title}</h6>
                   <p className="mb-0"><small>${property.price_per_night} USD/night</small></p>
                   <h6>Bookings:</h6>
