@@ -64,7 +64,6 @@ class AddPropertyWidget extends React.Component {
       }
     });
   };
-
   render() {
     const { title, description, city, country, type, price, maxGuests, bedrooms, beds, baths} = this.state;
 

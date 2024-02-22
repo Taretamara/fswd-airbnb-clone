@@ -32,6 +32,9 @@ module Api
       user = session.user
       @property = user.properties.new(property_params)
 
+      @property.images.attach(params[:images]) if params[:images].present?
+      images_attached = @property.images.attached?
+
       render 'api/properties/create' if @property.save
     end
 
@@ -70,7 +73,7 @@ module Api
     end
 
     def property_params
-      params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, images:[], )
+      params.require(:property).permit(:title, :description, :city, :country, :property_type, :price_per_night, :max_guests, :bedrooms, :beds, :baths, :user, images: [], )
     end
   end
 end

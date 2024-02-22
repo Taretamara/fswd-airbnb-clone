@@ -1,5 +1,6 @@
 // propertylist
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import AddPropertyWidget from './addPropertyWidget';
 import UpdatePropertyWidget from './updatePropertyWidget';
 import { safeCredentials, handleErrors } from '@utils/fetchHelper';
@@ -169,6 +170,7 @@ class PropertyList extends React.Component {
         </div>
         <div className="col-12">
           {properties.map(property => {
+            console.log(property)
             return (
               <div key={property.id} className="property row mb-2">
                 <div className="col-6">
