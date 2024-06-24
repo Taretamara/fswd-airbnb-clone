@@ -1,5 +1,7 @@
 module Api
   class ChargesController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: [:mark_complete]
+
     def create
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
@@ -42,5 +44,32 @@ module Api
         render json: { error: 'charge could not be created' }, status: :bad_request
       end
     end
+
+    def mark_complete
+      endpoint_secret = ENV['STRIPE_MARK_COMPLETE_WEBHOOK_SIGNING_SECRET']
+      event = nil
+
+      begin
+        sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+        payload = request.body.read
+        event = Stripe::Webhook.construct_event(payload, sig_header, endpoint_secret)
+      rescue JSON::ParserError => e
+        return head :bad_request
+      rescue Stripe::SignatureVerificationError => e
+        return head :bad_request
+      end
+
+      if event['type'] == 'checkout.session.completed'
+        session = event['data']['object']
+
+        charge = Charge.find_by(checkout_session_id: session.id)
+        return head :bad_request if !charge
+
+        charge.update({complete: true})
+
+        return head :ok
+    end
+
+      return head :bad_request
   end
 end
