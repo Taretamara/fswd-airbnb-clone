@@ -62,7 +62,7 @@ class Property extends React.Component {
               <hr />
               <p>{description}</p>
             </div>
-            <BookingWidget propert_id={id} price_per_night={price_per_night} />
+            <BookingWidget property_id={id} price_per_night={price_per_night} />
           </div>
         </div>
       </Layout>

@@ -11,6 +11,10 @@ class Booking < ApplicationRecord
   before_validation :check_start_date_smaller_than_end_date
   before_validation :check_availability
 
+  def is_paid?
+    self.charges.pluck(:complete).include?(true)
+  end
+
   private
 
   def check_start_date_smaller_than_end_date
@@ -20,10 +24,10 @@ class Booking < ApplicationRecord
   end
 
   def check_availability
-    overlapped_bookings = self.property.bookings.where("start date < ? AND end_date > ? ", self.end_date, self.start_date)
+    overlapped_bookings = self.property.bookings.where("start_date < ? AND end_date > ? ", self.end_date, self.start_date)
     exact_booking = self.property.bookings.where("start_date = ? AND end_date = ? ", self.start_date, self.end_date)
 
-    if overlapped_bookinges.count > 0 || exact_booking.count > 0
+    if overlapped_bookings.count > 0 || exact_booking.count > 0
       raise ArgumentError.new("date range overlaps with other bookings")
     end
   end
