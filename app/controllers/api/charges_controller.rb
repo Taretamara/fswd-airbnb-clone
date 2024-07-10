@@ -5,10 +5,10 @@ module Api
     def create
       token = cookies.signed[:airbnb_session_token]
       session = Session.find_by(token: token)
-      return render json: { error: 'user not logged in' }, status: :unauthorized if !session
+      return render json: { error: 'user not logged in' }, status: :unauthorized unless session
 
-      booking = Booking.find_by(id: params[:bookied_id])
-      return render json: { error: 'cannot find booking' }, status: :not_found if !booking
+      booking = Booking.find_by(id: params[:booking_id])
+      return render json: { error: 'cannot find booking' }, status: :not_found unless booking
 
       property = booking.property
       days_booked = (booking.end_date - booking.start_date).to_i
@@ -22,21 +22,21 @@ module Api
             unit_amount: (amount * 100.0).to_i, # amount in cents
             product_data: {
               name: "Trip for #{property.title}",
-              description: "Your booking is for #{booking.start_date} to #{booking.end_date}.",
-            },
+              description: "Your booking is for #{booking.start_date} to #{booking.end_date}."
+            }
           },
-          quantity: 1,
+          quantity: 1
         }],
-        mode: "payment",
+        mode: 'payment',
         success_url: "#{ENV['URL']}/booking/#{booking.id}/success",
-        cancel_url: "#{ENV['URL']}#{params[:cancel_url]}",
+        cancel_url: "#{ENV['URL']}#{params[:cancel_url]}"
       )
 
       @charge = booking.charges.new({
-        checkout_session_id: session_id,
-        currency: 'usd',
-        amount: amount
-      })
+                                      checkout_session_id: session_id,
+                                      currency: 'usd',
+                                      amount: amount
+                                    })
 
       if @charge.save
         render 'api/charges/create', status: :created
@@ -63,14 +63,14 @@ module Api
         session = event['data']['object']
 
         charge = Charge.find_by(checkout_session_id: session.id)
-        return head :bad_request if !charge
+        return head :bad_request unless charge
 
-        charge.update({complete: true})
+        charge.update({ complete: true })
 
         return head :ok
-    end
+      end
 
-      return head :bad_request
+      head :bad_request
+    end
   end
-end
 end
