@@ -87,14 +87,14 @@ class BookingWidget extends React.Component {
 }
 
   onDatesChange = ({ startDate, endDate }) => this.setState({ startDate, endDate })
-  onFocusChange = (focuedInput) => this.setState({ focuedInput })
+  onFocusChange = (focusedInput) => this.setState({ focusedInput })
   isDayBlocked = day => this.state.existingBookings.filter(b => day.isBetween(b.start_date, b.end_date, 'day', '[)')).length > 0
 
   render () {
     const {authenticated, startDate, endDate, focusedInput} = this.state;
     if (!authenticated) {
       return (
-      <div class="border p-4 mb-4">
+      <div className="border p-4 mb-4">
         Please <a href={`/login?redirect_url=${window.location.pathname}`}>log in</a> to make a booking.  
       </div>
       );
@@ -108,7 +108,7 @@ class BookingWidget extends React.Component {
     }
 
     return (
-    <div class="border p-4 mb-4">
+    <div className="border p-4 mb-4">
       <form onSubmit={this.submitBooking}>
         <h5>${price_per_night} <small>per night</small></h5>
         <hr />
@@ -126,7 +126,7 @@ class BookingWidget extends React.Component {
           />
         </div>
         {days && (
-          <div class="d-flex justify-content-between">
+          <div className="d-flex justify-content-between">
             <p>Total</p>
             <p>${(price_per_night * days).toLocaleString()}</p>
           </div>
