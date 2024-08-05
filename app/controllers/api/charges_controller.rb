@@ -33,7 +33,7 @@ module Api
       )
 
       @charge = booking.charges.new({
-                                      checkout_session_id: session_id,
+                                      checkout_session_id: session.id,
                                       currency: 'usd',
                                       amount: amount
                                     })

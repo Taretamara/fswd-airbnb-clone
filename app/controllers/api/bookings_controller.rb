@@ -9,7 +9,7 @@ module Api
       return render json: { error: 'cannot find property' }, status: :not_found unless property
 
       begin
-        @booking = Booking.create({ user_id: session.user.id, property_id: property.id, start_date: params[:booking][:start_date], end_date: params[:booking][:end_date] })
+        @booking = Booking.create!({ user_id: session.user.id, property_id: property.id, start_date: params[:booking][:start_date], end_date: params[:booking][:end_date] })
         render 'api/bookings/create', status: :created
       rescue ArgumentError => e
         render json: { error: e.message }, status: :bad_request
