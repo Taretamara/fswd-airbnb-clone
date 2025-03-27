@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_104031) do
-
+ActiveRecord::Schema[7.2].define(version: 2022_03_28_104031) do
   create_table "bookings", force: :cascade do |t|
     t.date "start_date"
     t.date "end_date"
     t.integer "user_id"
     t.integer "property_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["property_id"], name: "index_bookings_on_property_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
@@ -29,8 +28,8 @@ ActiveRecord::Schema.define(version: 2022_03_28_104031) do
     t.decimal "amount", precision: 10, scale: 2
     t.boolean "complete", default: false
     t.integer "booking_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["booking_id"], name: "index_charges_on_booking_id"
   end
 
@@ -47,16 +46,16 @@ ActiveRecord::Schema.define(version: 2022_03_28_104031) do
     t.integer "baths"
     t.string "image_url"
     t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_properties_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
     t.string "token"
     t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
@@ -64,8 +63,8 @@ ActiveRecord::Schema.define(version: 2022_03_28_104031) do
     t.string "username"
     t.string "email"
     t.string "password"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "bookings", "properties"
