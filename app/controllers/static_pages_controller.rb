@@ -11,4 +11,7 @@ class StaticPagesController < ApplicationController
   def login
     render 'login'
   end
+
+  def new_property  
+  end 
 end
