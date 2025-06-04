@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :users, only: [:create]
+
     resources :sessions, only: [:create, :destroy]
     resources :properties, only: [:index, :show, :create]
     resources :bookings, only: [:create]
@@ -14,7 +15,6 @@ Rails.application.routes.draw do
 
     get '/properties/:id/bookings' => 'bookings#get_property_bookings'
     get '/authenticated' => 'sessions#authenticated'
-
     post '/charges/mark_complete' => 'charges#mark_complete'
   end
 end
